@@ -29,7 +29,7 @@ public abstract class Repository<T> implements RepositoryInterface {
 	 * Get by ID method
 	 * @param id			ID of the row of data to get
 	 * @param tableName		Name of table to get data from
-	 * @return				JSON Object
+	 * @return				Object - JSON Object
 	 */
 	@Override
 	public Object get(int id, String tableName) {
@@ -75,7 +75,7 @@ public abstract class Repository<T> implements RepositoryInterface {
 	 * Get by NAME method
 	 * @param name			Name - a column in the table - of the row of data to get
 	 * @param tableName		Name of table to get data from
-	 * @return				JSON Object
+	 * @return				Object - JSON Object
 	 */
 	@Override
 	public Object getByName(String name, String tableName) {
@@ -123,7 +123,7 @@ public abstract class Repository<T> implements RepositoryInterface {
 	/**
 	 * Get ALL data method
 	 * @param tableName		Name of table to get data from
-	 * @return				A Collection of JSON Object of the type(T) provided
+	 * @return				Collection<T> - A Collection of JSON Object of the type(T) provided
 	 */
 	@Override
 	public Collection<T> getAll(String tableName) {
@@ -179,7 +179,7 @@ public abstract class Repository<T> implements RepositoryInterface {
 	 * Delete by ID method
 	 * @param id			ID of the row of data to delete
 	 * @param tableName		Name of table to delete row from
-	 * @return				A boolean - true: if deleted, false: if not deleted
+	 * @return				boolean - A boolean - true: if deleted, false: if not deleted
 	 */
 	@Override
 	public boolean delete(int id, String tableName) {

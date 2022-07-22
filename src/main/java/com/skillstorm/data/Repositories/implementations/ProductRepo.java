@@ -9,6 +9,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Product DAO
+ * This inherit from the {ProductRepoAbs} which inherit {Repository} DAO
+ * This expose this DAO to the generic DAO methods - like get(...), getAll(...), and delete(...)
+ */
 public class ProductRepo extends ProductRepoAbs {
     InventoryManagementDB db;
     public ProductRepo(InventoryManagementDB db) {
@@ -16,7 +21,13 @@ public class ProductRepo extends ProductRepoAbs {
         this.db = db;
     }
 
-    // todo explain why it is upsert and when something is put or post
+    /**
+     * The Upsert method does two things:
+     * 1) Post - if a products ID field is zero, it performs a POST request
+     * 2) Put - if a products ID field is not zero, it performs a PUT request
+     * @param product   A product object that contains the information for either POST or PUT
+     * @return          Product - The product object that was updated or created
+     */
     public Product upsert(Product product) {
         String sqlInsert = "INSERT INTO Product (id, name, price, details, available_quantity, category_id) VALUES (?, ?, ?, ?, ?, ?)";
         String sqlUpdate = "UPDATE Product SET name = ?, price = ?, details = ?, available_quantity = ?, category_id = ? WHERE id = " + product.getId();
@@ -44,7 +55,6 @@ public class ProductRepo extends ProductRepoAbs {
 
             int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
             if (rowsAffected != 0) {
-                // If I want my keys do this code
                 conn.commit(); // Executes ALL queries in a given transaction. Green button
                 return product;
             } else {
@@ -57,6 +67,10 @@ public class ProductRepo extends ProductRepoAbs {
         return null;
     }
 
+    /**
+     * This method return a list of product, each with their category
+     * @return  List<Product> - A list of product objects
+     */
     @Override
     public List<Product> getProductWithCategory() {
         String sql = "SELECT product.id, product.name, product.price, product.details, product.available_quantity, category.id AS category_id, category.name AS category_name\n" +
