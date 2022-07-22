@@ -23,8 +23,8 @@ public class ProductRepo extends ProductRepoAbs {
 
     /**
      * The Upsert method does two things:
-     * 1) Post - if a products ID field is zero, it performs a POST request
-     * 2) Put - if a products ID field is not zero, it performs a PUT request
+     * 1) Post - if a product's ID field is zero, it performs a POST request
+     * 2) Put - if a product's ID field is not zero, it performs a PUT request
      * @param product   A Product object that contains the information for either POST or PUT
      * @return Product  The product object that was updated or created
      */

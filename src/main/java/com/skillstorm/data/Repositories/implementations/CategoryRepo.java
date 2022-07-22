@@ -9,6 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Category DAO
+ * This inherit from the {CategoryRepoAbs} which inherit {Repository} DAO
+ * This expose this DAO to the generic DAO methods - like get(...), getAll(...), and delete(...)
+ */
 public class CategoryRepo extends CategoryRepoAbs {
     InventoryManagementDB db;
 
@@ -17,7 +22,13 @@ public class CategoryRepo extends CategoryRepoAbs {
         this.db = db;
     }
 
-
+    /**
+     * The Upsert method does two things:
+     * 1) Post - if a category's ID field is zero, it performs a POST request
+     * 2) Put - if a category's ID field is not zero, it performs a PUT request
+     * @param category   A Category object that contains the information for either POST or PUT
+     * @return Category  The category object that was updated or created
+     */
     @Override
     public Category upsert(Category category) {
         String sqlInsert = "INSERT INTO Category (id, name) VALUES (?, ?)";
