@@ -12,6 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * A generic DAO which is inherited by all other DAOs
+ * Can be used to make general GET request - get(id), get(name), getAll() - and also delete(id)
+ * Each method receives a table name
+ * @param <T> The return type if one is provided
+ */
 public abstract class Repository<T> implements RepositoryInterface {
 	private InventoryManagementDB db;
 
@@ -19,6 +25,12 @@ public abstract class Repository<T> implements RepositoryInterface {
 		this.db = db;
 	}
 
+	/**
+	 * Get by ID method
+	 * @param id			ID of the row of data to get
+	 * @param tableName		Name of table to get data from
+	 * @return				JSON Object
+	 */
 	@Override
 	public Object get(int id, String tableName) {
 		String sql = "SELECT * FROM " + tableName + " WHERE id = " + id;
@@ -59,6 +71,12 @@ public abstract class Repository<T> implements RepositoryInterface {
 		return null;
 	}
 
+	/**
+	 * Get by NAME method
+	 * @param name			Name - a column in the table - of the row of data to get
+	 * @param tableName		Name of table to get data from
+	 * @return				JSON Object
+	 */
 	@Override
 	public Object getByName(String name, String tableName) {
         String sql = "SELECT * FROM ? WHERE name = ?";
@@ -102,6 +120,11 @@ public abstract class Repository<T> implements RepositoryInterface {
 		return null;
 	}
 
+	/**
+	 * Get ALL data method
+	 * @param tableName		Name of table to get data from
+	 * @return				A Collection of JSON Object of the type(T) provided
+	 */
 	@Override
 	public Collection<T> getAll(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
@@ -152,15 +175,21 @@ public abstract class Repository<T> implements RepositoryInterface {
 		return null;
 	}
 
+	/**
+	 * Delete by ID method
+	 * @param id			ID of the row of data to delete
+	 * @param tableName		Name of table to delete row from
+	 * @return				A boolean - true: if deleted, false: if not deleted
+	 */
 	@Override
 	public boolean delete(int id, String tableName) {
-		String sql = "DELETE FROM ? WHERE id = ?";
+		String sql = "DELETE FROM " + tableName + " WHERE id = " + id;
 		try (Connection conn = this.db.getInstance().getConnection()) {
 			conn.setAutoCommit(false);
 			PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setString(1, tableName);
-			ps.setInt(2, id);
+//			ps.setString(1, tableName);
+//			ps.setInt(2, id);
 			int rowsAffected = ps.executeUpdate();
 			if (rowsAffected != 0) {
 				conn.commit();
@@ -171,8 +200,7 @@ public abstract class Repository<T> implements RepositoryInterface {
 			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
-
-		return false;
 	}
 }

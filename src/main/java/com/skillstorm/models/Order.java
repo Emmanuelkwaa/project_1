@@ -6,7 +6,7 @@ public class Order {
     private int id;
     private int quantity; //amount of product ordered
     private double totalCost;
-    private Date orderDate;
+    private Date orderDate = new Date();
     private Product product;
     private Customer customer;
 

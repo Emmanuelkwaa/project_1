@@ -20,7 +20,7 @@ public class OrderRepo extends OrderRepoAbs {
 
     @Override
     public Order update(Order order) {
-        String sqlUpdate = "UPDATE Orders SET product_id = 1?, quantity = 2?, customer_id = 3?, total_cost = 4?, order_date = 5? WHERE id = 6?";
+        String sqlUpdate = "UPDATE Orders SET product_id = ?, quantity = ?, customer_id = ?, total_cost = ? WHERE id = ?";
         try (Connection conn = this.db.getInstance().getConnection()) {
             // Start a transaction
             conn.setAutoCommit(false); // Prevents each query from immediately altering the database
@@ -30,8 +30,7 @@ public class OrderRepo extends OrderRepoAbs {
             ps.setDouble(2, order.getQuantity());
             ps.setInt(3, order.getCustomer().getId());
             ps.setDouble(4, order.getTotalCost());
-            ps.setDate(5, (Date) order.getOrderDate());
-            ps.setInt(6, order.getId());
+            ps.setInt(5, order.getId());
 
             int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
             if (rowsAffected != 0) {
@@ -51,7 +50,7 @@ public class OrderRepo extends OrderRepoAbs {
 
     @Override
     public List<Order> completeOrders() {
-        String sql = "SELECT orders.id, orders.quantity, orders.total_cost, orders.order_date, product.id AS product_id, product.name AS product_name, customer.first_name AS first_name, customer.last_name AS last_name, customer.phone, customer.email\n" +
+        String sql = "SELECT orders.id, orders.quantity, orders.total_cost, orders.order_date, product.id AS product_id, product.name AS product_name, customer.id AS customer_id, customer.first_name AS first_name, customer.last_name AS last_name, customer.phone, customer.email\n" +
                 "FROM orders\n" +
                 "INNER JOIN product\n" +
                 "ON orders.product_id = product.id\n" +
@@ -79,6 +78,7 @@ public class OrderRepo extends OrderRepoAbs {
                         resultSet.getString("product_name")
                     ),
                     new Customer(
+                        resultSet.getInt("customer_id"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
                         resultSet.getString("phone"),
