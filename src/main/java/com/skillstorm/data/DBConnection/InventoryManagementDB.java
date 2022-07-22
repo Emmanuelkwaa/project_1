@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * A singleton that creates a connecation to the local MySQL database
+ */
 public class InventoryManagementDB {
     private static InventoryManagementDB instance;
     private String url;

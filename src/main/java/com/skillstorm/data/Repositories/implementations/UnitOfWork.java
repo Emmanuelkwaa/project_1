@@ -6,6 +6,11 @@ import com.skillstorm.data.Repositories.abstraction.IUnitOfWork;
 import com.skillstorm.data.Repositories.abstraction.OrderRepoAbs;
 import com.skillstorm.data.Repositories.abstraction.ProductRepoAbs;
 
+/**
+ * This class is used to group all the DAO (repos) into a single transaction or “unit of work”
+ * so that all operations either pass or fail as one unit
+ * This makes it possible for the DAOs to share a single database context
+ */
 public class UnitOfWork implements IUnitOfWork {
     private InventoryManagementDB db;
     private ProductRepoAbs productRepo;
