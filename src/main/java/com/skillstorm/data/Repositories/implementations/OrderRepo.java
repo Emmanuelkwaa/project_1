@@ -10,6 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Order DAO
+ * This inherit from the {OrderRepoAbs} which inherit {Repository} DAO
+ * This expose this DAO to the generic DAO methods - like get(...), getAll(...), and delete(...)
+ */
 public class OrderRepo extends OrderRepoAbs {
     InventoryManagementDB db;
 
@@ -18,6 +23,11 @@ public class OrderRepo extends OrderRepoAbs {
         this.db = db;
     }
 
+    /**
+     * This method performs an update to the Order table
+     * @param order     An Order object that contains the information for PUT request
+     * @return Order    The Order object that was updated
+     */
     @Override
     public Order update(Order order) {
         String sqlUpdate = "UPDATE Orders SET product_id = ?, quantity = ?, customer_id = ?, total_cost = ? WHERE id = ?";
@@ -48,6 +58,10 @@ public class OrderRepo extends OrderRepoAbs {
         return null;
     }
 
+    /**
+     * This method returns a list of orders, each with their product and customer
+     * @return List<Order>    A list of Order objects
+     */
     @Override
     public List<Order> completeOrders() {
         String sql = "SELECT orders.id, orders.quantity, orders.total_cost, orders.order_date, product.id AS product_id, product.name AS product_name, customer.id AS customer_id, customer.first_name AS first_name, customer.last_name AS last_name, customer.phone, customer.email\n" +

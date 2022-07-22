@@ -25,8 +25,8 @@ public class ProductRepo extends ProductRepoAbs {
      * The Upsert method does two things:
      * 1) Post - if a products ID field is zero, it performs a POST request
      * 2) Put - if a products ID field is not zero, it performs a PUT request
-     * @param product   A product object that contains the information for either POST or PUT
-     * @return          Product - The product object that was updated or created
+     * @param product   A Product object that contains the information for either POST or PUT
+     * @return Product  The product object that was updated or created
      */
     public Product upsert(Product product) {
         String sqlInsert = "INSERT INTO Product (id, name, price, details, available_quantity, category_id) VALUES (?, ?, ?, ?, ?, ?)";
@@ -68,8 +68,8 @@ public class ProductRepo extends ProductRepoAbs {
     }
 
     /**
-     * This method return a list of product, each with their category
-     * @return  List<Product> - A list of product objects
+     * This method returns a list of products, each with their category
+     * @return List<Product>    A list of Product objects
      */
     @Override
     public List<Product> getProductWithCategory() {
